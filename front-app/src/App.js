@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddPosition from "./components/addPosition";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import EditPosition from "./components/EditPosition";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <Plan />}/>
         <Route path="/add" element={  <AddPosition/>}/>
+        <Route path="/edit" element={  <EditPosition/>}/>
         </Routes>
       
        

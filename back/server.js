@@ -36,6 +36,25 @@ io.on("connection", async (socket) => {
     }
   });
 
+
+  socket.on("editPosition", async (data) => {
+    try {
+     const positionFound = await Position.findById(data._id)
+
+     const positionInstance = new Position({_id : positionFound._id, 
+      lat : data.lat,
+      lng : data.lng,
+      text :positionFound.text,
+      object: positionFound.object
+     });
+
+      const response = await Position.findByIdAndUpdate(positionInstance._id, positionInstance);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+
   try {
     const positions = await Position.find();
     io.emit("positionList", positions);
