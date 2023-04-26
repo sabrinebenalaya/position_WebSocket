@@ -6,4 +6,4 @@ const positionSchema = mongoose.Schema({
   object:{type: String, required: false, default:"GiPositionMarker"}
 });
 
-module.exports = mongoose.model("position", positionSchema); 
+module.exports = mongoose.model("positions", positionSchema); 

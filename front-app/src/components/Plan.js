@@ -19,7 +19,7 @@ function Plan() {
     socket.on("positionList", (positions) => {
       setPositionList(positions);
     });
-  }, [positionList]);
+  }, []);
 
   return (
     <div>

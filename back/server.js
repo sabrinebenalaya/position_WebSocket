@@ -3,9 +3,8 @@ const axios = require("axios");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
-
-const connect = require("./ConnnectDB/Connect");
 const Position = require("./Models/Position");
+const ObjectID = require("mongodb").ObjectID;
 
 const app = express();
 app.use(cors());
@@ -17,58 +16,79 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-const PORT = 3001;
 
-connect();
+/* connexion db */
+const { MongoClient } = require("mongodb");
+const uri = "mongodb://localhost:27017/positionItems";
+const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-io.on("connection", async (socket) => {
-  console.log("client connected");
-
-  socket.on("addPosition", async (data) => {
-    try {
-      const newPosition = data;
-      const positionInstance = new Position(newPosition);
-      const response = await positionInstance.save();
-      io.emit("message")
-
-    } catch (err) {
-      console.error(err);
-    }
-  });
-
-
-  socket.on("editPosition", async (data) => {
-    try {
-     const positionFound = await Position.findById(data._id)
-
-     const positionInstance = new Position({_id : positionFound._id, 
-      lat : data.lat,
-      lng : data.lng,
-      text :positionFound.text,
-      object: positionFound.object
-     });
-
-      const response = await Position.findByIdAndUpdate(positionInstance._id, positionInstance);
-    } catch (err) {
-      console.error(err);
-    }
-  });
-
-
+async function main() {
   try {
-    const positions = await Position.find();
-    io.emit("positionList", positions);
-  } catch (error) {
-    console.error(error);
+    await client.connect();
+    console.log("Connected successfully to server");
+    const db = client.db("positionItems");
+
+    io.on("connection", (socket) => {
+      console.log("a user connected");
+
+      socket.on("addPosition", (position) => {
+        console.log("Adding position:", position);
+        addPositionToDB(position);
+        io.emit("positionAdded", position);
+      });
+      socket.on("updatePosition", (position) => {
+        console.log("Updating position:", position);
+        updatePositionInDB(position);
+      });
+    });
+
+    await monitorListingsUsingEventEmitter(client, db);
+  } catch (e) {
+    console.error(e);
   }
+}
 
-  socket.on("disconnect", () => {
-    console.log("client disconnected");
-  });
-});
+main().catch(console.error);
+async function updatePositionInDB(position) {
+  const collection = client.db("positionItems").collection("positions");
+  const filter = { _id: new ObjectID(position._id) };
 
+  const updateDoc = { $set: { lng: position.lng, lat: position.lat } };
+  const result = await collection.updateOne(
+    filter,
+    updateDoc
+  );
+  console.log(`${result.modifiedCount} position updated`);
+  const updatedPosition = await collection.findOne(filter);
 
+  // Émettre l'événement "positionUpdated" à tous les clients connectés
+  io.emit("positionUpdated", updatedPosition);
+}
 
+async function addPositionToDB(position) {
+  const collection = client.db("positionItems").collection("positions");
+  const result = await collection.insertOne(position);
+  const updatedPosition = await collection.findOne({ _id: position._id });
+
+  // Émettre l'événement "positionUpdated" à tous les clients connectés
+  io.emit("positionUpdated", updatedPosition);
+}
+
+async function monitorListingsUsingEventEmitter(client, db, timeInMs = 1000) {
+  const collection = db.collection("positions");
+
+  setInterval(async () => {
+    if (client.isConnected()) {
+      const positions = await collection.find().toArray();
+      io.emit("positionList", positions);
+    } else {
+      console.log("Not connected to MongoDB");
+    }
+  }, timeInMs);
+}
+
+/* end connxion*/
+const PORT = 3001;
 server.listen(PORT, () => {
   console.log(`Listening on *:${PORT}`);
 });

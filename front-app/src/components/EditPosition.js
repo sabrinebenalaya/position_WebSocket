@@ -17,13 +17,26 @@ function EditPosition() {
       } else {
         SetPosition({ ...position, [e.target.name]: e.target.value });
       }
+   
     };
+  
+   
+    socket.on("positionUpdated", (updatedPosition) => {
+      SetPosition(updatedPosition)
+    });
+
     const handelEdit= (e) => {
-        e.preventDefault();
-        socket.emit("editPosition", position);
-        SetPosition({});
-        toast("Position edited successfully");
-      };
+      e.preventDefault();
+
+      socket.emit("updatePosition", position);
+      
+      SetPosition(position);
+
+      toast("Position edited successfully");
+    }
+    
+ 
+    
   return (
     <Form className="container mb-3" style={{ width: "20%" }}>
       <Form.Group className="mb-3" controlId="formBasicPassword">
