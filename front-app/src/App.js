@@ -1,24 +1,21 @@
 import "./App.css";
-import Plan from "./components/Plan";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddPosition from "./components/addPosition";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import EditPosition from "./components/EditPosition";
+import { BrowserRouter, Route, Switch, Redirect, Routes } from "react-router-dom";
 
+import AuthLayout from "./layouts/Auth.js";
+import AdminLayout from "./layouts/Admin.js";
 function App() {
   return (
     <>
       <ToastContainer />
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={ <Plan />}/>
-        <Route path="/add" element={  <AddPosition/>}/>
-        <Route path="/edit" element={  <EditPosition/>}/>
-        </Routes>
-      
-       
+        <Switch>
+        <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+          <Redirect from="/" to="/admin/index" />
+        </Switch>
       </BrowserRouter>
     </>
   );
