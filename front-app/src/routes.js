@@ -22,10 +22,11 @@ import Sensor from "./views/Sensor.js";
 import Capteur from "./views/Capteur.js";
 import Tables from "./views/Tables.js";
 import Plan from "./views/Plan.js";
+import EditUser from "./components/EditUser/EditUser.js";
 
 var routes = [
    {
-    path: "/index",
+    path: "/",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
@@ -65,6 +66,13 @@ var routes = [
     icon: "ni ni-folder-17 text-red",
     component: Plan,
     layout: "/admin"
+  },
+  {
+    path: "/edit-user/:id",
+    name: "Edit User",
+    icon: "ni ni-single-02 text-yellow",
+    component: EditUser,
+    layout: "" // Set it to an empty string or any other value
   },
 ];
 export default routes;

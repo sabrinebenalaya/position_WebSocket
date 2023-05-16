@@ -74,7 +74,9 @@ const Sidebar = (props) => {
 
     
     return routes.map((prop, key) => {
+      if (prop.layout === "/admin") {
       return (
+
         <NavItem key={key}
         onClick={() => props.handleRouteClick(prop)} >
           <NavLink
@@ -87,7 +89,7 @@ const Sidebar = (props) => {
             {prop.name}
           </NavLink>
         </NavItem>
-      );
+      );}
     });
   };
 

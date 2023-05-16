@@ -16,18 +16,16 @@
 
 */
 
-// reactstrap components
-import {  Container  } from "reactstrap";
-const Header = () => {
-  return (
-  
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
-        <Container fluid>
-          
-        </Container>
-      </div>
-   
-  );
-};
+import EditUser from "./components/EditUser/EditUser.js";
 
-export default Header;
+var route = [
+   {
+    path: "/edit-user/:id",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: EditUser,
+    layout: "/admin"
+  },
+  
+];
+export default route;
