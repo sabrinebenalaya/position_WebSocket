@@ -10,11 +10,14 @@ import { Route, Switch } from "react-router-dom";
 
 import routes from "./../routes.js";
 import EditUser from "../components/EditUser/EditUser.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedRoute } from "../Redux/routeSlice.js";
 
 const Admin = (props) => {
   const mainContent = useRef(null);
   const location = useLocation();
-  const [selectedRoute, setSelectedRoute] = useState(null);
+  const dispatch = useDispatch();
+  const selectedRoute = useSelector((state) => state.route.selectedRoute);
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -35,20 +38,19 @@ const Admin = (props) => {
   };
 
   const handleRouteClick = (route) => {
-    setSelectedRoute(route);
+    dispatch(setSelectedRoute(route));
   };
+  const [idUser, setIdUser] = useState("");
 
-  const handleEditUser = (userId) => {
-    const editUserRoute = routes.find(
-      (route) => route.path === "/edit-user/:id"
-    );
-    if (editUserRoute) {
-      setSelectedRoute({
-        ...editUserRoute,
-        path: editUserRoute.path.replace(":id", userId),
-      });
+  useEffect(() => {
+    if (selectedRoute) {
+      const path = selectedRoute.path;
+      const id = path.substring(path.lastIndexOf("/") + 1);
+      setIdUser(id);
+      dispatch(setSelectedRoute(selectedRoute));
     }
-  };
+  }, [selectedRoute]);
+
 
   return (
     <>
@@ -71,14 +73,15 @@ const Admin = (props) => {
         <Switch>
           {selectedRoute && (
             <Container fluid>
-              {React.createElement(selectedRoute.component)}
+              {selectedRoute.component === EditUser ? (
+                <EditUser id={idUser} />
+              ) : (
+                React.createElement(selectedRoute.component)
+              )}
             </Container>
           )}
-          <Container fluid>
-     
-            <Route path="/admin/edit-user/:id" component={EditUser} />
-          </Container>
         </Switch>
+
         <AdminFooter />
       </div>
     </>

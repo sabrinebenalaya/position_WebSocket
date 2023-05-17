@@ -8,21 +8,35 @@ import {
   Media,
   UncontrolledTooltip,
 } from "reactstrap";
-import { useDispatch } from "react-redux";
-import { useHistory  } from "react-router-dom";
+import {  useHistory  } from "react-router-dom";
 import routes from '../../routes';
-
+import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, fetchUsers } from "../../Redux/UserSlice";
+import { setSelectedRoute } from "../../Redux/routeSlice";
 function UserItem({ user }) {
   const dispatch = useDispatch();
+  const selectedRoute = useSelector((state) => state.route.selectedRoute);
   //edit user
-  const history = useHistory();
+  const navigate = useHistory()
 
 
 
   const handleEditUser = (userId) => {
-    history.push(`/admin/edit-user/${userId}`);
+    console.log("id user dans useritem", userId)
+   
+   
+      const editUserRoute = routes.find(
+        (route) => route.path === "/edit-user/:id"
+      );
+      if (editUserRoute) {
+        const updatedRoute = {
+          ...editUserRoute,
+          path: `/edit-user/${userId}`,
+        };
+        dispatch(setSelectedRoute(updatedRoute));
+      }
     
+     
   };
   
   

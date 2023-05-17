@@ -73,6 +73,7 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: EditUser,
     layout: "" // Set it to an empty string or any other value
-  },
+  }
+  
 ];
 export default routes;

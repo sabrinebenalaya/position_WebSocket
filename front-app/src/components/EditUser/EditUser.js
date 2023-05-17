@@ -1,41 +1,35 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect} from "react";
+import { useParams } from 'react-router-dom';
+
 import {
-    Button,
-    Card,
-    CardHeader,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    Container,
-    Row,
-    Col
-  } from "reactstrap";
-function EditUser() {
-    const id = useParams()
-    console.log("id",id)
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  Container,
+  Row,
+  Col,
+} from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserByID } from "../../Redux/UserSlice";
+function EditUser({id}) {
+
+  console.log("id", id);
+const dispatch= useDispatch()
+  useEffect(() => {
+    
+      dispatch(getUserByID(id));
+  
+  }, [dispatch]);
+  const user = useSelector((state) => state.user);
+  console.log("user=", user)
   return (
     <div>
       <Col className="order-xl-1" xl="8">
         <Card className="bg-secondary shadow">
-          <CardHeader className="bg-white border-0">
-            <Row className="align-items-center">
-              <Col xs="8">
-                <h3 className="mb-0">My account</h3>
-              </Col>
-              <Col className="text-right" xs="4">
-                <Button
-                  color="primary"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="sm"
-                >
-                  Settings
-                </Button>
-              </Col>
-            </Row>
-          </CardHeader>
           <CardBody>
             <Form>
               <h6 className="heading-small text-muted mb-4">
@@ -64,19 +58,24 @@ function EditUser() {
                     <FormGroup>
                       <label
                         className="form-control-label"
-                        htmlFor="input-email"
+                        htmlFor="input-username"
                       >
-                        Email address
+                        Position
                       </label>
                       <Input
+                        id="exampleFormControlSelect1 "
                         className="form-control-alternative"
-                        id="input-email"
-                        placeholder="jesse@example.com"
-                        type="email"
-                      />
+                        type="select"
+                      >
+                        <option>PDG</option>
+                        <option>Developper</option>
+                        <option>Asisstent</option>
+                        <option>Director</option>
+                      </Input>
                     </FormGroup>
                   </Col>
                 </Row>
+
                 <Row>
                   <Col lg="6">
                     <FormGroup>
@@ -113,6 +112,60 @@ function EditUser() {
                     </FormGroup>
                   </Col>
                 </Row>
+
+                <Row>
+                  <Col lg="6">
+                    <FormGroup>
+                      <label
+                        className="form-control-label"
+                        htmlFor="example-date-input"
+                      >
+                        Date of birth
+                      </label>
+                      <Input
+                        defaultValue={new Date().getFullYear() + "-11-23"}
+                        id="example-date-input"
+                        type="date"
+                        className="form-control-alternative"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col lg="6">
+                    <FormGroup>
+                      <label
+                        className="form-control-label"
+                        htmlFor="example-date-input"
+                      >
+                        Status
+                      </label>
+                      <Input
+                        id="exampleFormControlSelect1 "
+                        className="form-control-alternative"
+                        type="select"
+                      >
+                        <option>Active</option>
+                        <option>Not Active</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center">
+                  <Col lg="6" className="d-flex align-items-center">
+                    <FormGroup className="d-flex align-items-center">
+                      <Input
+                        id="exampleFormControlSelect1"
+                        className="custom-file-input form-control-alternative"
+                        type="file"
+                      />
+                      <label
+                        className="custom-file-label form-control-alternative"
+                        htmlFor="exampleFormControlSelect1"
+                      >
+                        Choose your profile picture
+                      </label>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </div>
               <hr className="my-4" />
               {/* Address */}
@@ -121,72 +174,34 @@ function EditUser() {
               </h6>
               <div className="pl-lg-4">
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <FormGroup>
                       <label
                         className="form-control-label"
-                        htmlFor="input-address"
+                        htmlFor="example-tel-input"
                       >
-                        Address
+                        Phone
                       </label>
                       <Input
-                        className="form-control-alternative"
-                        defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                        id="input-address"
-                        placeholder="Home Address"
-                        type="text"
+                        defaultValue="40-(770)-888-444"
+                        id="example-tel-input"
+                        type="tel"
                       />
                     </FormGroup>
                   </Col>
-                </Row>
-                <Row>
-                  <Col lg="4">
+                  <Col lg="6">
                     <FormGroup>
                       <label
                         className="form-control-label"
-                        htmlFor="input-city"
+                        htmlFor="input-email"
                       >
-                        City
+                        Email address
                       </label>
                       <Input
                         className="form-control-alternative"
-                        defaultValue="New York"
-                        id="input-city"
-                        placeholder="City"
-                        type="text"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg="4">
-                    <FormGroup>
-                      <label
-                        className="form-control-label"
-                        htmlFor="input-country"
-                      >
-                        Country
-                      </label>
-                      <Input
-                        className="form-control-alternative"
-                        defaultValue="United States"
-                        id="input-country"
-                        placeholder="Country"
-                        type="text"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg="4">
-                    <FormGroup>
-                      <label
-                        className="form-control-label"
-                        htmlFor="input-country"
-                      >
-                        Postal code
-                      </label>
-                      <Input
-                        className="form-control-alternative"
-                        id="input-postal-code"
-                        placeholder="Postal code"
-                        type="number"
+                        id="input-email"
+                        placeholder="jesse@example.com"
+                        type="email"
                       />
                     </FormGroup>
                   </Col>
