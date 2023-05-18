@@ -38,7 +38,14 @@ const Admin = (props) => {
   };
 
   const handleRouteClick = (route) => {
-    dispatch(setSelectedRoute(route));
+
+    const updatedRoute = {
+      ...route,
+      path: route.path,
+      component: route.component,
+    };
+    console.log(updatedRoute)
+    dispatch(setSelectedRoute(updatedRoute));
   };
   const [idUser, setIdUser] = useState("");
 
@@ -73,11 +80,10 @@ const Admin = (props) => {
         <Switch>
           {selectedRoute && (
             <Container fluid>
-              {selectedRoute.component === EditUser ? (
-                <EditUser id={idUser} />
-              ) : (
-                React.createElement(selectedRoute.component)
-              )}
+              
+                
+                  {React.createElement(selectedRoute.component)}
+              
             </Container>
           )}
         </Switch>

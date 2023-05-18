@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   Button,
@@ -15,19 +15,19 @@ import {
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByID } from "../../Redux/UserSlice";
-function EditUser({id}) {
+function EditUser() {
+const idd ="64614b3c0e6298ffb8873d82"
 
-  console.log("id", id);
-const dispatch= useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    
-      dispatch(getUserByID(id));
-  
+    console.log("id", idd);
+
+    dispatch(getUserByID(idd));
   }, [dispatch]);
-  const user = useSelector((state) => state.user);
-  console.log("user=", user)
+  const user = useSelector((state) => Object.values(state.user)[0]);
+  console.log("user=", user);
   return (
-    <div>
+ <>
       <Col className="order-xl-1" xl="8">
         <Card className="bg-secondary shadow">
           <CardBody>
@@ -226,8 +226,8 @@ const dispatch= useDispatch()
             </Form>
           </CardBody>
         </Card>
-      </Col>
-    </div>
+      </Col></>
+    
   );
 }
 

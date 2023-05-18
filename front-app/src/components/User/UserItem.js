@@ -22,21 +22,19 @@ function UserItem({ user }) {
 
 
   const handleEditUser = (userId) => {
-    console.log("id user dans useritem", userId)
-   
-   
-      const editUserRoute = routes.find(
-        (route) => route.path === "/edit-user/:id"
-      );
-      if (editUserRoute) {
-        const updatedRoute = {
-          ...editUserRoute,
-          path: `/edit-user/${userId}`,
-        };
-        dispatch(setSelectedRoute(updatedRoute));
-      }
-    
-     
+    console.log("id user dans useritem", userId);
+  
+    const editUserRoute = routes.find(
+      (route) => route.path === "/edit-user/:id"
+    );
+    if (editUserRoute) {
+      const updatedRoute = {
+        ...editUserRoute,
+        path: `/edit-user/${userId}`,
+        component: "EditUser",
+      };
+      dispatch(setSelectedRoute(updatedRoute));
+    }
   };
   
   

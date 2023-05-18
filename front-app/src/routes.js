@@ -69,10 +69,10 @@ var routes = [
   },
   {
     path: "/edit-user/:id",
-    name: "Edit User",
+    name: "EditUser",
     icon: "ni ni-single-02 text-yellow",
     component: EditUser,
-    layout: "" // Set it to an empty string or any other value
+    layout: "edit" // Set it to an empty string or any other value
   }
   
 ];

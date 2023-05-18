@@ -29,17 +29,15 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
-export const getUserByID = createAsyncThunk(
-  "users/user",
-  async (userId) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/users/user/${userId}`);
-      return response.data;
-    } catch (err) {
-      throw new Error(err.message);
-    }
+export const getUserByID = createAsyncThunk("users/getUserByID", async (userId) => {
+  console.log(userId)
+  try {
+    const response = await axios.get(`http://localhost:3001/users/getUser/${userId}`);
+    return response.data;
+  } catch (err) {
+    throw new Error(err.message);
   }
-);
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -82,9 +80,14 @@ const userSlice = createSlice({
     });
     builder.addCase(getUserByID.fulfilled, (state, action) => {
       // Mettre à jour l'utilisateur dans l'état
-      return action.payload;
+      const user = action.payload;
+      const index = state.findIndex((u) => u._id === user._id);
+      if (index !== -1) {
+        state[index] = user;
+      } else {
+        state.push(user);
+      }
     });
-    
     builder.addCase(getUserByID.rejected, (state, action) => {
       // Traitement des erreurs lors de la récupération de l'utilisateur
       console.log(action.error.message);
