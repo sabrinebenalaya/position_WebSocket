@@ -8,8 +8,8 @@ userController.addUser = async (req, res) => {
   const newuser = req.body;
 
   try {
-    const carUser = await new User(newuser);
-    carUser.save();
+    const userAdded = await new User(newuser);
+    userAdded.save();
 
     res.status(200).send(" user added Successfully");
   } catch (err) {

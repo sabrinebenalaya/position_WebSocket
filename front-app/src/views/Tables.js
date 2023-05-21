@@ -16,9 +16,9 @@ import {
 import { useEffect, useState } from "react";
 // core components
 import Header from "../Headers/Header";
-import AddUser from "../components/AddUser/AddUser";
+import AddUser from "../components/Users/AddUser/AddUser";
 import { useDispatch, useSelector } from "react-redux";
-import UserItem from "../components/User/UserItem";
+import UserItem from "../components/Users/User/UserItem";
 
 import { fetchUsers } from "../Redux/UserSlice";
 
@@ -39,10 +39,10 @@ const Tables = () => {
   console.log("list of users =", list);
  
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Header />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className="mt--7" fluid >
         {/* Table */}
         <Row>
           <div className="col">
@@ -158,8 +158,9 @@ const Tables = () => {
           </Modal>
         </Row>
       </Container>
-    </>
+    </div>
   );
+  ;
 };
 
 export default Tables;

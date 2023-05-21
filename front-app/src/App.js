@@ -2,34 +2,84 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./Redux/Store";
-
-import AuthLayout from "./layouts/Auth.js";
-import AdminLayout from "./layouts/Admin.js";
+import Login from "././views/Login";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Sidebar from './components/Sidebar/Sidebar';
+import Profile from "./views/Profile";
+import Index from "./views/Index";
+import Tables from "./views/Tables";
+import Sensor from "./views/Sensor";
+import Capteur from "./views/Capteur";
+import Plan from "./views/Plan";
+import EditUser from "./components/Users/EditUser/EditUser";
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Login />,
+    },
+    {
+      path: "/admin",
+      element: <Sidebar />,
+      children: [
+        {
+          path: "/admin", 
+          element: (
+            <Index/>
+          ),
+
+        },
+        {
+          path: "/admin/profil", 
+          element: (
+            <Profile/>
+          ),
+          
+        },
+        {
+          path: "/admin/users", 
+          element: (
+            <Tables/>
+          ),
+          
+        },
+        {
+          path: "/admin/sensors", 
+          element: (
+            <Sensor/>
+          ),
+          
+        },
+        {
+          path: "/admin/capteurs", 
+          element: (
+            <Capteur/>
+          ),
+          
+        },
+        {
+          path: "/admin/plan", 
+          element: (
+            <Plan/>
+          ),
+          
+        },
+        {
+          path: "/admin/editUser/:id", 
+          element: <EditUser />,
+        },
+      ],
+    },
+  ]);
+
+ 
   return (
     <>
       <ToastContainer />
-      <Provider store={store}>
-        {" "}
-        <BrowserRouter>
-          <Switch>
-            <Route
-              path="/admin"
-              render={(props) => <AdminLayout {...props} />}
-            />
-            <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-            <Redirect from="/" to="/admin/index" />
-          </Switch>
-        </BrowserRouter>
-      </Provider>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
     </>
   );
 }

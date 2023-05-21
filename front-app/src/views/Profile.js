@@ -33,12 +33,12 @@ import {
   import UserHeader from "../Headers/UserHeader";
   
   const Profile = () => {
+    
     return (
-      <>
-        <UserHeader />
-        {/* Page content */}
-
-        <Container className="mt--7" fluid>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+      <UserHeader />
+      {/* Page content */}
+      <Container className="mt--7" fluid>
           <Row>
             <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
               <Card className="card-profile shadow">
@@ -323,9 +323,9 @@ import {
             </Col>
           </Row>
         </Container>
-      </>
-    );
-  };
+    </div>
+  );
+      }
   
   export default Profile;
   

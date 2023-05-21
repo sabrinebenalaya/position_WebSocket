@@ -8,33 +8,21 @@ import {
   Media,
   UncontrolledTooltip,
 } from "reactstrap";
-import {  useHistory  } from "react-router-dom";
-import routes from '../../routes';
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, fetchUsers } from "../../Redux/UserSlice";
-import { setSelectedRoute } from "../../Redux/routeSlice";
+import { deleteUser, fetchUsers } from "../../../Redux/UserSlice";
+import { useNavigate } from "react-router-dom";
 function UserItem({ user }) {
   const dispatch = useDispatch();
   const selectedRoute = useSelector((state) => state.route.selectedRoute);
   //edit user
-  const navigate = useHistory()
+ 
 
-
+const navigate = useNavigate()
 
   const handleEditUser = (userId) => {
     console.log("id user dans useritem", userId);
-  
-    const editUserRoute = routes.find(
-      (route) => route.path === "/edit-user/:id"
-    );
-    if (editUserRoute) {
-      const updatedRoute = {
-        ...editUserRoute,
-        path: `/edit-user/${userId}`,
-        component: "EditUser",
-      };
-      dispatch(setSelectedRoute(updatedRoute));
-    }
+  navigate(`/admin/editUser/${userId}`)
+   
   };
   
   
@@ -56,11 +44,7 @@ function UserItem({ user }) {
       <tr>
         <th scope="row">
           <Media className="align-items-center">
-            <a
-              className="avatar rounded-circle mr-3 ni ni-circle-08"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            ></a>
+            
             <Media>
               <span className="mb-0 text-sm">{user.userName}</span>
             </Media>
@@ -89,7 +73,7 @@ function UserItem({ user }) {
                   <img
                     alt="..."
                     className="rounded-circle"
-                    src={require("../../assets/img/theme/team-1-800x800.jpg")}
+                    src={require("../../../assets/img/theme/team-1-800x800.jpg")}
                   />
                 </a>
                 <UncontrolledTooltip delay={0} target={user.userName}>

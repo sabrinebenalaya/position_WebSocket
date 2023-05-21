@@ -14,27 +14,22 @@ import {
   } from "reactstrap";
   import { useState } from 'react';
   import { useDispatch } from "react-redux";
-import { addUser } from "../../Redux/UserSlice";
-import { fetchUsers } from "../../Redux/UserSlice";
 
 import { v4 as uuidv4 } from 'uuid';
 
 
-  const AddUser = ({ toggle }) => {
+  const AddSensor= ({ toggle }) => {
     const uniqueId = uuidv4();
 
-    const [user, setUser] = useState({password:uniqueId});
-    const dispatch = useDispatch();
-  
+    const [user, setUser] = useState();
+   
     const handleChange = (event) => { 
       setUser({ ...user, [event.target.name]: event.target.value });
     };
   
     const handleAddUser = (event) => {
       event.preventDefault();
-      dispatch(addUser(user));
       toggle()
-      dispatch(fetchUsers());
     };
     return (
       <>
@@ -56,8 +51,8 @@ import { v4 as uuidv4 } from 'uuid';
                     <img
                       alt="..."
                       src={
-                        require("../../assets/img/icons/common/google.svg")
-                          .default
+                        require("../../../assets/img/icons/common/google.svg")
+                          
                       }
                     />
                   </span>
@@ -126,5 +121,5 @@ import { v4 as uuidv4 } from 'uuid';
     );
   };
   
-  export default AddUser;
+  export default AddSensor;
   

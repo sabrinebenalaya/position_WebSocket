@@ -1,10 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 // react component for creating dynamic tables
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import Header from "../Headers/Header"
-
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import Header from "../Headers/Header";
+import {
+  Card,
+  Container,
+  Button,
+  Modal,
+} from "reactstrap";
+import AddSensor from "../components/Sensor/AddSensor/AddSensor";
 const pagination = paginationFactory({
   page: 1,
   alwaysShowAllBtns: true,
@@ -19,7 +27,7 @@ const pagination = paginationFactory({
             name="datatable-basic_length"
             aria-controls="datatable-basic"
             className="form-control form-control-sm"
-            onChange={e => onSizePerPageChange(e.target.value)}
+            onChange={(e) => onSizePerPageChange(e.target.value)}
           >
             <option value="10">10</option>
             <option value="25">25</option>
@@ -30,56 +38,89 @@ const pagination = paginationFactory({
         entries.
       </label>
     </div>
-  )
+  ),
 });
 
 const { SearchBar } = Search;
 
 function Sensor() {
- const dataTable =[{name:"sensor A", position:" positionA", office:"officeA", Age:"AgeA", start_date:"12-12-2015",salary:"1254"},
- {name:"sensor B", position:" positionB", office:"officeB", Age:"AgeB", start_date:"12-12-2010",salary:"10254"}]
+  const [show, setShow] = useState(false);
 
-    return (
-      <>
-      <Header/>
-      <ToolkitProvider
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const dataTable = [
+    {
+      name: "sensor A",
+      position: " positionA",
+      office: "officeA",
+      Age: "AgeA",
+      start_date: "12-12-2015",
+      salary: "1254",
+    },
+    {
+      name: "sensor B",
+      position: " positionB",
+      office: "officeB",
+      Age: "AgeB",
+      start_date: "12-12-2010",
+      salary: "10254",
+    },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Header />
+      <Container className="mt--7" fluid>
+      <div className="text-right" xs="4">
+          <Button
+            color="info"
+            href="#pablo"
+            onClick={handleShow}
+            size="lg"
+            style={{ marginRight: "2%", marginTop: "2%" }}
+          >
+            Add Sensor
+          </Button>
+          
+        </div>
+        <ToolkitProvider
           data={dataTable}
           keyField="name"
           columns={[
             {
               dataField: "name",
               text: "Name",
-              sort: true
+              sort: true,
             },
             {
               dataField: "position",
               text: "Position",
-              sort: true
+              sort: true,
             },
             {
               dataField: "office",
               text: "Office",
-              sort: true
+              sort: true,
             },
             {
               dataField: "Age",
               text: "age",
-              sort: true
+              sort: true,
             },
             {
               dataField: "start_date",
               text: "Start date",
-              sort: true
+              sort: true,
             },
             {
               dataField: "salary",
               text: "Salary",
-              sort: true
-            }
+              sort: true,
+            },
           ]}
           search
         >
-          {props => (
+          {(props) => (
             <div className="py-4">
               <div
                 id="datatable-basic_filter"
@@ -102,10 +143,22 @@ function Sensor() {
               />
             </div>
           )}
-     </ToolkitProvider>
-      </>
-    );
-  
+        </ToolkitProvider>
+        <Modal
+            className="modal-dialog-centered"
+            size="sm"
+            isOpen={show}
+            toggle={handleClose}
+          >
+            <div className="modal-body p-0">
+              <Card className="bg-secondary shadow border-0">
+                <AddSensor toggle={handleClose} />
+              </Card>
+            </div>
+          </Modal>
+      </Container>
+    </div>
+  );
 }
 
 export default Sensor;
