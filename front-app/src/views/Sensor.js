@@ -12,7 +12,7 @@ import {
   Button,
   Modal,
 } from "reactstrap";
-import AddSensor from "../components/Sensor/AddSensor/AddSensor";
+import AddSensor from './../components/Sensors/AddSensor/AddSensor';
 const pagination = paginationFactory({
   page: 1,
   alwaysShowAllBtns: true,

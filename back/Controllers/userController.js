@@ -10,7 +10,6 @@ userController.addUser = async (req, res) => {
   try {
     const userAdded = await new User(newuser);
     userAdded.save();
-
     res.status(200).send(" user added Successfully");
   } catch (err) {
     res.status(400).json({ message: err.message });

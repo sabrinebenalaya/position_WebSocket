@@ -14,10 +14,9 @@ import {
   } from "reactstrap";
   import { useState } from 'react';
   import { useDispatch } from "react-redux";
-import { addUser } from "../../../Redux/UserSlice"
-import { fetchUsers } from "../../../Redux/UserSlice";
 
 import { v4 as uuidv4 } from 'uuid';
+import { addUser, fetchUsers } from "../../../Redux/Actions/userAction";
 
 
   const AddUser = ({ toggle }) => {
@@ -28,46 +27,38 @@ import { v4 as uuidv4 } from 'uuid';
   
     const handleChange = (event) => { 
       setUser({ ...user, [event.target.name]: event.target.value });
+      console.log("user=", user)
     };
   
     const handleAddUser = (event) => {
       event.preventDefault();
-      dispatch(addUser(user));
-      toggle()
+    
+      // Met à jour la propriété "userName" de l'objet "user"
+      const userToAdd = {
+        ...user,
+        userName: `${user.firstName}-${user.lastName}`
+      };
+    
+      console.log("userToAdd =", userToAdd);
+    
+      // Dispatch l'action "addUser" avec l'objet "updatedUser"
+      dispatch(addUser(userToAdd));
+    
+      // Effectue la logique pour fermer un élément ou un état (toggle)
+      toggle();
+    
+      // Dispatch l'action "fetchUsers" pour récupérer les utilisateurs mis à jour
       dispatch(fetchUsers());
     };
+    
     return (
       <>
        
           <Card className="bg-secondary shadow border-0">
-            <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-4">
-                <small>Sign up with</small>
-              </div>
-              <div className="text-center">
-               
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={
-                        require("../../../assets/img/icons/common/google.svg")
-                          .default
-                      }
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader>
+           
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
-                <small>Or sign up with credentials</small>
+                <small>Add user</small>
               </div>
               <Form role="form">
                 <FormGroup>
@@ -77,7 +68,17 @@ import { v4 as uuidv4 } from 'uuid';
                         <i className="ni ni-hat-3" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Name" type="text" name="userName" onChange={handleChange}/>
+                    <Input placeholder="firstName" type="text" name="firstName" onChange={handleChange} required/>
+                  </InputGroup>
+                </FormGroup>
+                <FormGroup>
+                  <InputGroup className="input-group-alternative mb-3">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-hat-3" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input placeholder="lastName" type="text" name="lastName" onChange={handleChange} required/>
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -93,6 +94,7 @@ import { v4 as uuidv4 } from 'uuid';
                       autoComplete="new-email"
                       onChange={handleChange}
                       name="email"
+                      required
                     />
                   </InputGroup>
                 </FormGroup>
@@ -108,6 +110,7 @@ import { v4 as uuidv4 } from 'uuid';
                       type="text"
                       onChange={handleChange}
                       name="position"
+                      required
                     />
                   </InputGroup>
                 </FormGroup>

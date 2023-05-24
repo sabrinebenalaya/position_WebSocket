@@ -18803,7 +18803,7 @@ textarea[resize="horizontal"] {
 }
 
 .separator-skew {
-  height: 60px;
+  height: 160px;
 }
 @media (min-width: 1200px) {
   .separator-skew {

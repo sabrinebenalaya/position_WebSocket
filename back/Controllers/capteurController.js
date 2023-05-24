@@ -2,11 +2,8 @@ const Capteur = require("../Models/Capteur.js");
 const capteurController = {};
 
 // ADD Capteur
-
 capteurController.addCapteur = async (req, res) => {
-
   const newCapteur = req.body;
-console.log("capteur data=", newCapteur)
   try {
     const capteurAdded = await new Capteur(newCapteur);
     capteurAdded.save();
@@ -17,21 +14,34 @@ console.log("capteur data=", newCapteur)
   }
 };
 
+// UPDATE Capteur
+capteurController.updateCapteur = async (req, res) => {
+  const capteurToUpdate = req.body;
+  try {
+    const capteurUpdated = await Capteur.findByIdAndUpdate(req.params.id,  { $set: { ...capteurToUpdate } },
+      {
+        new: true,
+        runValidators: true,
+      })
+
+
+    res.status(200).send(capteurUpdated);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 // GET ALL THE Capteur
-
 capteurController.getCapteurs = async (req, res) => {
-
   try {
     const capteurs = await Capteur.find();
-   
+
     capteurs
       ? res.status(200).json(capteurs)
       : res.status(404).json({ message: "Capteurs not found" });
-     
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
 };
 
 //Delete a Capteur
@@ -48,13 +58,14 @@ capteurController.deleteCapteur = async (req, res) => {
 
 //get a Capteur by ID
 capteurController.getCapteurByID = async (req, res) => {
-  const {id} = req.params
- 
+  const { id } = req.params;
+
   try {
-    const capteur= await Capteur.findById(id);
+    const capteur = await Capteur.findById(id);
+
     !capteur
       ? res.status(404).json({ message: "Capteur not found" })
-      : res.status(200).json({capteur});
+      : res.status(200).json({ capteur });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

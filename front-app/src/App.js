@@ -8,17 +8,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Sidebar from './components/Sidebar/Sidebar';
 import Profile from "./views/Profile";
 import Index from "./views/Index";
-import Tables from "./views/Tables";
 import Sensor from "./views/Sensor";
-import Capteur from "./views/Capteur";
 import Plan from "./views/Plan";
 import EditUser from "./components/Users/EditUser/EditUser";
+
+import "./assets/plugins/nucleo/css/nucleo.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "./assets/scss/argon-dashboard-react.scss";
+import UserTable from "./components/Users/UserTable";
+import CapteurTable from './components/Capteurs/CapteurTable';
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Login />,
     },
+
     {
       path: "/admin",
       element: <Sidebar />,
@@ -40,7 +45,7 @@ function App() {
         {
           path: "/admin/users", 
           element: (
-            <Tables/>
+            <UserTable/>
           ),
           
         },
@@ -54,7 +59,7 @@ function App() {
         {
           path: "/admin/capteurs", 
           element: (
-            <Capteur/>
+            <CapteurTable/>
           ),
           
         },
@@ -69,18 +74,20 @@ function App() {
           path: "/admin/editUser/:id", 
           element: <EditUser />,
         },
+      
       ],
     },
+
   ]);
 
  
   return (
-    <>
-      <ToastContainer />
-      <React.StrictMode>
-        <RouterProvider router={router} />
-      </React.StrictMode>
-    </>
+    <div style={{ height: "100%" }}>
+    <ToastContainer />
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </div>
   );
 }
 

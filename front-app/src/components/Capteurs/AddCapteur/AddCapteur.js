@@ -14,23 +14,23 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { v4 as uuidv4 } from "uuid";
-import { addCapteur, fetchCapteurs } from "../../../Redux/CapteurSlice";
+import { addCapteur, fetchCapteurs } from "../../../Redux/Actions/capteurAction";
 
 const AddCapteur = ({ toggle }) => {
   const uniqueId = uuidv4();
 const dispatch= useDispatch()
-  const [capteur, setCapteur] = useState({});
+  const [capteur, setCapteur] = useState({"status": true});
 
   const handleChange = (event) => {
     setCapteur({ ...capteur, [event.target.name]: event.target.value });
-    console.log(capteur)
+    
   };
 
   const handleAddCapteur = (event) => {
     event.preventDefault();
     dispatch(addCapteur(capteur))
     toggle();
-    dispatch(fetchCapteurs());
+  dispatch(fetchCapteurs());
   };
   return (
     <>

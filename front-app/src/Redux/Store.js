@@ -1,15 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import UserSlice from "./UserSlice";
-import thunkMiddleware from 'redux-thunk';
-import routeSlice from "./routeSlice";
-import capteurSlice from "./CapteurSlice"
+import { createStore, applyMiddleware, compose } from "redux";
 
-export default configureStore({
-  reducer: {
-    user: UserSlice,
-    route: routeSlice,
-    capteur: capteurSlice,
-  },
-  middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware().concat(thunkMiddleware),
-});
+import rootReducer from "./Reducers/index";
+import thunk from "redux-thunk";
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+
+  )
+);
+export default store;

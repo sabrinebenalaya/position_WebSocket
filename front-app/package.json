@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.6.1",
     "@emailjs/browser": "^3.11.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "5.15.3",
     "@reduxjs/toolkit": "^1.9.5",
     "bootstrap": "4.6.0",
     "chart.js": "2.9.4",
     "classnames": "2.3.1",
+    "framer-motion": "^10.12.13",
+    "mdb-react-ui-kit": "^6.0.0",
     "moment": "2.29.4",
     "nouislider": "15.2.0",
     "react": "18.2.0",
@@ -22,6 +27,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-switch": "^7.0.0",
     "react-toastify": "^9.1.2",
     "reactstrap": "8.9.0",
     "redux-thunk": "^2.4.2",
@@ -29,10 +35,14 @@
     "web-vitals": "^3.3.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=5000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "compile:scss": "sass src/assets/scss/argon-dashboard-react.scss src/assets/css/argon-dashboard-react.css",
+    "minify:scss": "sass src/assets/scss/argon-dashboard-react.scss src/assets/css/argon-dashboard-react.min.css --style compressed",
+    "build:scss": "npm run compile:scss && npm run minify:scss && npm run map:scss"
   },
   "eslintConfig": {
     "extends": [

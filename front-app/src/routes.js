@@ -19,9 +19,9 @@
 import Index from "./views/Index.js";
 import Profile from "./views/Profile.js";
 import Sensor from "./views/Sensor.js";
-import Capteur from "./views/Capteur.js";
-import Tables from "./views/Tables.js";
 import Plan from "./views/Plan.js";
+import UserTable from "./components/Users/UserTable.js";
+import CapteurTable from './components/Capteurs/CapteurTable';
 
 const routes = [
    {
@@ -35,7 +35,7 @@ const routes = [
     path: "/admin/users",
     name: "Users",
     icon: "ni ni-circle-08 text-pink",
-    component: Tables,
+    component: UserTable,
     layout: "/admin"
   },
   {
@@ -56,7 +56,7 @@ const routes = [
     path: "/admin/capteurs",
     name: "Capteur",
     icon: "ni ni-building text-green",
-    component: Capteur,
+    component: CapteurTable,
     layout: "/admin"
   },
   {

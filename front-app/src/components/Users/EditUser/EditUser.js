@@ -11,21 +11,24 @@ import {
   Container,Button,
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserByID } from "../../../Redux/UserSlice";
 import { useParams } from "react-router-dom";
 import Header from "../../../Headers/Header";
+import { getUserByID } from "../../../Redux/Actions/userAction";
 function EditUser() {
   const { id } = useParams();
   console.log("id user to edit", id);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getUserByID(id));
   }, [dispatch, id]);
-  const user = useSelector((state) => Object.values(state.user)[0]);
+ 
+  const user = useSelector((state) => (state.userReducer.user));
   console.log("user=", user);
 
   const [userEdited , SetUserEdited]= useState({})
+  
   const HandelChange = (e)=>{
     const {name,value} = e.target
     SetUserEdited({...userEdited,[name]:value})

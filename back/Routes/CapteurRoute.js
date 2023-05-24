@@ -6,4 +6,6 @@ router.post("/add", capteurController.addCapteur);
 router.get("/allCapteurs", capteurController.getCapteurs);
 router.delete("/deleteCapteur/:id", capteurController.deleteCapteur);
 router.get("/getCapteur/:id", capteurController.getCapteurByID);
+
+router.put("/update/:id", capteurController.updateCapteur);
 module.exports = router;
