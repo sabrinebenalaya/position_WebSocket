@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "././views/Login";
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import Sidebar from './components/Sidebar/Sidebar';
 import Profile from "./views/Profile";
 import Index from "./views/Index";
@@ -16,24 +16,32 @@ import "./assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 import UserTable from "./components/Users/UserTable";
+import { useSelector } from "react-redux";
+
 import CapteurTable from './components/Capteurs/CapteurTable';
+import AuthRoute from "./routes/AuthRoute";
 function App() {
+  const auth = useSelector((state) => state.authReducer);
+  const token = localStorage.getItem("jwt");
+  console.log("token", token)
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Login />,
-    },
 
+    },
+    
     {
       path: "/admin",
-      element: <Sidebar />,
+   
+      element:<AuthRoute><Sidebar/></AuthRoute>,
       children: [
         {
           path: "/admin", 
           element: (
             <Index/>
           ),
-
+    
         },
         {
           path: "/admin/profil", 
@@ -77,8 +85,9 @@ function App() {
       
       ],
     },
-
+    
   ]);
+  
 
  
   return (

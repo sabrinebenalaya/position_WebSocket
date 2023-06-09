@@ -1,20 +1,7 @@
 const User = require("../Models/User");
 const userController = {};
 
-// ADD USER
 
-userController.addUser = async (req, res) => {
-
-  const newuser = req.body;
-
-  try {
-    const userAdded = await new User(newuser);
-    userAdded.save();
-    res.status(200).send(" user added Successfully");
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
 
 // GET ALL THE USERS
 
@@ -58,4 +45,37 @@ userController.getUserByID = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//Edit a user By ID
+
+userController.editUserById= async(req, res)=>{
+  const { id } = req.params;
+  const userToUpdate = JSON.parse(req.body.userEdited);
+
+  // Traitez les autres données du formulaire (userEdited)
+
+  if (req.file) {
+    console.log("path",req.file.path)
+    const imagePath = req.file.path.replace(/\\/g, "/");
+    const photoPath = `http://localhost:3001/users/${imagePath}`;
+    userToUpdate.photo = photoPath;
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $set: { ...userToUpdate } },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    user
+      ? res.status(200).json(user)
+      : res.status(404).json({ message: "User not found" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
 module.exports = userController;

@@ -1,33 +1,26 @@
 
 import { toast } from "react-toastify";
 import axios from "axios"
-//Add user
-export const addUser =(user)=> async (dispatch) => {
-    try {
-        const useradded = await axios.post(
-          "http://localhost:3001/users/add",
-          user
-        );
-        dispatch({ type: "ADD_USER", payload: useradded.data });
-       
-      } catch (e) {
-        console.log(e);
-      }
-};
+
 
 
 
 //update user
-export const updateUser = (newuser, id) => async (dispatch) => {
+export const updateUser = (newuser,  id, navigate) => async (dispatch) => {
+  console.log("newuser", newuser)
+
+
   try {
     const user = await axios.put(
-      `http://localhost:3001/users/${id}`,
+      `http://localhost:3001/users/updateUser/${id}`,
       newuser
     );
 
     dispatch({ type: "UPDATE_USER", payload: user.data });
-
-    toast("User updated Successfully!");
+if(user.status === 200){
+  toast("User updated Successfully!");
+  navigate("/admin/users")
+}
   } catch (error) {
     console.log(error);
   }
@@ -53,8 +46,8 @@ export const getUserByID = (id) => async (dispatch) => {
     const user = await axios.get(
       `http://localhost:3001/users/getUser/${id}`
     );
-
-    dispatch({ type: "GET_USER_By_ID", payload: user.data });
+console.log("d=", user.data.user)
+    dispatch({ type: "GET_USER_By_ID", payload: user.data.user });
   } catch (e) {
     console.log(e);
   }

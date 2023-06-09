@@ -10,21 +10,17 @@ import {
 } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchUsers, deleteUser } from './../../../Redux/Actions/userAction';
+import { fetchUsers, deleteUser } from "./../../../Redux/Actions/userAction";
 function UserItem({ user }) {
   const dispatch = useDispatch();
   //edit user
- 
 
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleEditUser = (userId) => {
-    console.log("id user dans useritem", userId);
-  navigate(`/admin/editUser/${userId}`)
-   
+  const handleEdit = () => {
+    navigate(`/admin/editUser/${user._id}`);
   };
-  
-  
+
   //delete user
   const HandelDelete = (e) => {
     const confirmed = window.confirm(
@@ -42,30 +38,30 @@ const navigate = useNavigate()
       <tr>
         <th scope="row">
           <Media className="align-items-center">
-          <div className="avatar-group" style={{marginRight:'5px'}}>
-            {user.userName ? (
-              <>
-                <a
-                  className="avatar avatar-sm"
-                  href="#pablo"
-                  id={user.userName}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img
-                    alt="..."
-                    className="rounded-circle"
-                    src={user.photo}
-                  />
-                </a>
-                <UncontrolledTooltip delay={0} target={user.userName}>
-                  {user.userName}
-                </UncontrolledTooltip>
-              </>
-            ) : (
-              <span className="avatar avatar-sm"> </span>
-              // Ou utilisez une icône appropriée ici
-            )}
-          </div>
+            <div className="avatar-group" style={{ marginRight: "5px" }}>
+              {user.userName ? (
+                <>
+                  <a
+                    className="avatar avatar-sm"
+                    href="#pablo"
+                    id={user.userName}
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <img
+                      alt="..."
+                      className="rounded-circle"
+                      src={user.photo}
+                    />
+                  </a>
+                  <UncontrolledTooltip delay={0} target={user.userName}>
+                    {user.userName}
+                  </UncontrolledTooltip>
+                </>
+              ) : (
+                <span className="avatar avatar-sm"> </span>
+                // Ou utilisez une icône appropriée ici
+              )}
+            </div>
             <Media>
               <span className="mb-0 text-sm">{user.userName}</span>
             </Media>
@@ -76,18 +72,19 @@ const navigate = useNavigate()
             <span className="mr-2">{user.position}</span>
           </div>
         </td>
-        <td>{user.email}</td>
+        <td>{user.mail}</td>
 
         <td>
           <Badge color="" className="badge-dot mr-4">
-           
-            {user.status === "active"?(<i className="bg-success" />):(<i className="bg-danger" />)} 
+            {user.status === "active" ? (
+              <i className="bg-success" />
+            ) : (
+              <i className="bg-danger" />
+            )}
             {user.status}
           </Badge>
         </td>
 
-       
-      
         <td className="text-right">
           <UncontrolledDropdown>
             <DropdownToggle
@@ -101,9 +98,7 @@ const navigate = useNavigate()
               <i className="fas fa-ellipsis-v" />
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
-              <DropdownItem onClick={() => handleEditUser(user._id)}>
-                Edit
-              </DropdownItem>
+              <DropdownItem onClick={handleEdit}>Edit</DropdownItem>
               <DropdownItem href="#pablo" onClick={HandelDelete}>
                 Delete
               </DropdownItem>

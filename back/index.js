@@ -3,6 +3,8 @@ const cors = require('cors')
 const userRoute = require('./Routes/UserRoute');
 const capteurRoute = require('./Routes/CapteurRoute')
 const sensorRoute = require('./Routes/SensorRoute')
+const authRoute = require('./Routes/AuthRoute')
+
 const connect = require("./ConnnectDB/Connect");
 
 const app = express();
@@ -24,6 +26,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use('/auth',authRoute);
+
 app.use('/users',userRoute);
 app.use('/capteurs',capteurRoute);
 app.use('/sensors',sensorRoute);

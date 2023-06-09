@@ -11,7 +11,7 @@
         return { ...state, loading: false, user: action.payload };
   
       case "UPDATE_USER":
-        return { ...state, loading: false, users: action.payload };
+        return { ...state, loading: false, user: action.payload };
   
       case "DELETE_USER":
         return { ...state, loading: false, users: action.payload };

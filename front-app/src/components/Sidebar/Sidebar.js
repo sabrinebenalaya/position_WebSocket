@@ -53,8 +53,19 @@ import {
 } from "reactstrap";
 import routes from "../../routes";
 
+
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logOut } from './../../Redux/Actions/authAction';
 import { Outlet } from "react-router-dom";
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = ()=>{
+    dispatch(logOut(navigate));
+
+  }
   return (
     <div style={{ display: "flex" }}>
       <nav style={{ display: "flex", flexDirection: "column" }}>
@@ -77,7 +88,7 @@ const Sidebar = () => {
             </li>
           ))}
           <li style={{ margin: "20px" }}>
-            <Link data-scroll-nav={0} className="text-gray" to="log">
+            <Link data-scroll-nav={0} className="text-gray"  onClick={logout}>
               <i
                 className="ni ni-button-power"
                 style={{ marginRight: "5px" }}

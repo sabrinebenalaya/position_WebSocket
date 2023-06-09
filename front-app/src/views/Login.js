@@ -20,7 +20,6 @@
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -32,15 +31,47 @@ import {
   Col,
   Container,
 } from "reactstrap";
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import React , {useState} from "react";
+import { logIn } from "../Redux/Actions/authAction";
+import { validatorLogin } from "../Validator/validatorLogin";
+import { isEmpty } from "../Validator/isEmpty";
+import { toast } from "react-toastify";
 const Login = () => {
+ 
+  
+  //login
+  const [loginUser, setLoginUser] = useState({
+    mail: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handelChange = (e) => {
+    setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
+  };
+
+  const handelSumbit = (e) => {
+    const { errors, isValid } = validatorLogin(loginUser);
+    
+    if (!isValid) {
+      if (!isEmpty(errors.mail)) {
+        toast.error(errors.mail);
+      }
+      if (!isEmpty(errors.password)) {
+        toast.error(errors.password);
+      }
+    } else {
+      dispatch(logIn(loginUser, navigate));
+
+    }
+  };
+
   return (
-    <div
-      style={{
-        minHeight: "600px",
-        backgroundColor: "#5603ad",
-      }}
-    >
+    <div>
+  
+    
       <div className="main-content">
         <div className="  py-7 py-lg-8">
           <Container>
@@ -56,50 +87,12 @@ const Login = () => {
           <Row className="justify-content-center">
             <Col lg="5" md="7">
               <Card className="bg-secondary shadow border-0">
-                <CardHeader className="bg-transparent pb-5">
-                  <div className="text-muted text-center mt-2 mb-3">
-                    <small>Sign in with</small>
-                  </div>
-                  <div className="btn-wrapper text-center">
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <span className="btn-inner--icon">
-                        <img
-                          alt="..."
-                          src={
-                            require("../assets/img/icons/common/github.svg")
-                              .default
-                          }
-                        />
-                      </span>
-                      <span className="btn-inner--text">Github</span>
-                    </Button>
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <span className="btn-inner--icon">
-                        <img
-                          alt="..."
-                          src={
-                            require("../assets/img/icons/common/google.svg")
-                              .default
-                          }
-                        />
-                      </span>
-                      <span className="btn-inner--text">Google</span>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardBody className="px-lg-5 py-lg-5">
+               
+                <CardBody className="px-lg-5 py-lg-5"      style={{
+        backgroundColor: "#5603ad", borderRadius:"10px"
+      }}>
                   <div className="text-center text-muted mb-4">
-                    <small>Or sign in with credentials</small>
+                    <small>SigIn </small>
                   </div>
                   <Form role="form">
                     <FormGroup className="mb-3">
@@ -112,7 +105,9 @@ const Login = () => {
                         <Input
                           placeholder="Email"
                           type="email"
+                          name="mail"
                           autoComplete="new-email"
+                          onChange={handelChange}
                         />
                       </InputGroup>
                     </FormGroup>
@@ -126,42 +121,34 @@ const Login = () => {
                         <Input
                           placeholder="Password"
                           type="password"
+                          name="password"
                           autoComplete="new-password"
+                          onChange={handelChange}
                         />
                       </InputGroup>
                     </FormGroup>
                     <div className="custom-control custom-control-alternative custom-checkbox">
                       <input
                         className="custom-control-input"
-                        id=" customCheckLogin"
+                        name="rememberMe" id="rememberMe" 
                         type="checkbox"
                       />
                       <label
                         className="custom-control-label"
-                        htmlFor=" customCheckLogin"
+                        htmlFor="rememberMe"
                       >
                         <span className="text-muted">Remember me</span>
                       </label>
                     </div>
                     <div className="text-center">
-                      <Button className="my-4" color="primary" type="button">
+                      <Button className="my-4" color="white" type="button" onClick={handelSumbit}>
                         Sign in
                       </Button>
                     </div>
                   </Form>
                 </CardBody>
               </Card>
-              <Row className="mt-3">
-                <Col xs="6">
-                  <a
-                    className="text-light"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <small>Forgot password?</small>
-                  </a>
-                </Col>
-              </Row>
+              
             </Col>
           </Row>
         </Container>
